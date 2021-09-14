@@ -9,8 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Example artifact for $GITHUB_RUN_ID" >art.txt
+          echo "Example modified artifact for $GITHUB_RUN_ID" >art.txt
       - uses: actions/upload-artifact@v2
         with:
           name: some-artifact
           path: art.txt
+# testing
