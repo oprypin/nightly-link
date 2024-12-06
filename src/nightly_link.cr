@@ -313,8 +313,8 @@ class NightlyLink
       workflow += ".yml"
     end
     status = ctx.request.query_params.fetch("status", "success")
-    if !status.in?("success", "completed")
-      raise HTTPException.new(:BadRequest, "?status must be 'success' (default) or 'completed'")
+    if !status.in?("success", "completed", "failure")
+      raise HTTPException.new(:BadRequest, "?status must be 'success' (default), 'completed' or 'failure'")
     end
 
     run = get_latest_run(repo_owner, repo_name, workflow: workflow, branch: branch, status: status, token: token)
@@ -469,8 +469,8 @@ class NightlyLink
       workflow += ".yml"
     end
     status = ctx.request.query_params.fetch("status", "success")
-    if !status.in?("success", "completed")
-      raise HTTPException.new(:BadRequest, "?status must be 'success' (default) or 'completed'")
+    if !status.in?("success", "completed", "failure")
+      raise HTTPException.new(:BadRequest, "?status must be 'success' (default), 'completed' or 'failure'")
     end
 
     run = get_latest_run(repo_owner, repo_name, workflow: workflow, branch: branch, status: status, token: token)

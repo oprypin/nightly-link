@@ -30,6 +30,7 @@ Note that the <i>branch</i> which you're on also matters.</p>
 <p>Following this form (and having selected the "<%= example_art %>" artifact), you will end up at<br><a rel="nofollow" href="<%= example_dest %>"><%= example_dest %></a> [<a rel="nofollow" href="<%= example_dest %>.zip">.zip</a>]<br>
 which is a link that always downloads the latest artifact from a <u>succeeding</u> run on that <u>repo</u>+<u>workflow</u>+<u>branch</u>.</p>
 <p>To allow <u>any completed</u> workflow runs, not only successful ones, append <code>?status=completed</code> to the URL.
+<p>To allow <u>failed</u> workflow runs, append <code>?status=failure</code> to the URL.
 <p>If you have several workflows or branches, you can adapt the URL by hand in a predictable way.</p>
 </details>
 

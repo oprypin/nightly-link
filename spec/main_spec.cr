@@ -338,6 +338,18 @@ describe "by_branch" do
     assert_canonical "https://nightly.link/UserName/RepoName/workflows/SomeWorkflow/SomeBranch/Some%23Artifact"
   end
 
+  test "failure" do
+    WebMock.stub(:get, "https://api.github.com/repos/username/reponame/actions/workflows/SomeWorkflow.yml/runs?per_page=1&branch=SomeBranch&event=push&status=failure").to_return(
+      body: %({"workflow_runs":[
+                {"id":#{RUN_1},"event":"push","workflow_id":#{WORKFLOW_1},"check_suite_url":"https://api.github.com/repos/UserName/RepoName/check-suites/#{CHECK_SUITE_1}","updated_at":"2020-12-19T22:22:22Z","repository":{"full_name":"UserName/RepoName","private":false,"fork":false}}]}))
+    WebMock.stub(:get, "https://api.github.com/repos/username/reponame/actions/workflows/SomeWorkflow.yml/runs?per_page=1&branch=SomeBranch&event=schedule&status=failure").to_return(
+      body: %({"workflow_runs":[
+                {"id":#{RUN_2},"event":"schedule","workflow_id":#{WORKFLOW_1},"check_suite_url":"https://api.github.com/repos/UserName/RepoName/check-suites/#{CHECK_SUITE_1}","updated_at":"2021-02-07T07:15:00Z","repository":{"full_name":"UserName/RepoName","private":false,"fork":false}}]}))
+
+    resp, body = serve("/UserName/RepoName/workflows/SomeWorkflow/SomeBranch/Some%23Artifact?status=failure")
+    assert_canonical "https://nightly.link/UserName/RepoName/workflows/SomeWorkflow/SomeBranch/Some%23Artifact"
+  end
+
   test "redirect" do
     resp, body = serve("/UserName/RepoName/workflows/SomeWorkflow/SomeBranch/Some%23Artifact.zip")
     assert_redirect "http://example.org/download1"
